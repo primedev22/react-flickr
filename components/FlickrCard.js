@@ -1,6 +1,8 @@
 import { Card } from 'react-bootstrap'
+import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 
-function FlickrCard({ data }) {
+function FlickrCard({ data, scrollPosition }) {
   const title = data.title
   const link = data.link
   const author = data.author.split('"')[1]
@@ -19,10 +21,10 @@ function FlickrCard({ data }) {
     const last = sections[sections.length - 1];
     description = last.substr(0, last.length - 4)
   }
-  
+
   return (
     <Card style={{ width: '28rem', margin: 10 }}>
-      <Card.Img variant="top" src={photo} />
+      <LazyLoadImage scrollPosition={scrollPosition} src={photo} alt={title} effect="blur" width="100%" height="400" />
       <Card.Body>
         <Card.Title>
           <a href={link}>{title}</a> by <a href={author_link}>{author}</a></Card.Title>
@@ -35,4 +37,4 @@ function FlickrCard({ data }) {
   )
 }
 
-export default FlickrCard
+export default trackWindowScroll(FlickrCard)
